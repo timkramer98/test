@@ -1,0 +1,402 @@
+ numberOfPrime:
+if( n < 2 ) { return 0; }
+        
+        bits = new BitSet( n + 1 );
+        
+        bits.flip( 2, n + 1 );
+        
+        for( int i = 2; i <= Math.sqrt( n ); ++i ) {
+            if( bits.get( i ) ) {
+                for( int j = i*i; j <= n; j += i ) {
+                    bits.set( j, false );
+                }
+            }
+        }
+        
+        return bits.cardinality();
+
+Array Search
+int low = 0;
+        int high = tab.length - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int midVal = tab[mid];
+            if (midVal < elem)
+                low = mid + 1;
+            else if (midVal > elem)
+                high = mid - 1;
+            else
+                return mid; // elem found
+        }
+        return -1; // elem not found
+
+Merge Sort Implementation
+mergeSort(a, new int[a.length], 0,a.length-1);
+
+int auxid = lo, i = lo, j = mid+1;
+        while(auxid <= hi) {
+            if(i <= mid && j <= hi) {
+                if(a[i] < a[j]) {
+                    aux[auxid++] = a[i++];
+                } else {
+                    aux[auxid++] = a[j++];
+                }
+            } else if(i <= mid) {
+                aux[auxid++] = a[i++];
+            } else {
+                aux[auxid++] = a[j++];
+            }
+        }
+        // Copy the relevant part of `aux` into `a`
+        System.arraycopy(aux, lo, a, lo, hi-lo+1);
+
+    private static void mergeSort(int[] a, int[] aux, int lo, int hi) {
+        if(hi - lo > 0) {
+            int mid = (lo+hi)/2;
+            mergeSort(a, aux, lo, mid);
+            mergeSort(a, aux, mid+1, hi);
+            merge(a, aux, lo, mid, hi);
+        }
+    }
+
+Largest Sum Contiguous Subarray
+
+int[] result   = new int[]{ a[ 0 ], 0, 0 }; // sum, start, end
+    
+    int currentMax = a[0];
+    int currentSum = 0;
+    int start      = 0;
+    int end        = 0;
+    
+    for ( int i = 0; i < a.length; ++i ) {
+      end = i;
+      
+      if( currentSum <= 0 ) {
+        start      = end;
+        currentSum = a[ i ];
+      } else {
+        currentSum += a[ i ];
+      }
+      
+      if( currentSum > currentMax ) {
+        currentMax = currentSum;
+        
+        result[ 0 ] = currentMax;
+        result[ 1 ] = start;
+        result[ 2 ] = end;
+      }
+    }
+    
+    return result;
+
+public static int[] maxSubArraySum(int a[]) {
+        int max = a[0],
+                max_ending_here = 0, from = 0,
+                to = 0, s = 0;
+
+        for (int i = 0; i < a.length; i++) {
+            max_ending_here += a[i];
+
+            if (max < max_ending_here) {
+                max = max_ending_here;
+                from = s;
+                to = i;
+            }
+
+            if (max_ending_here < 0) {
+                max_ending_here = 0;
+                s = i + 1;
+            }
+        }
+        return new int[]{max, from, to};
+    }
+Hanoi Towe
+
+if( n == 1 ) {
+            b.push( a.pop() );
+        } else {
+            towerOfHanoi( n - 1,  a, c, b );
+            b.push( a.pop() );
+            towerOfHanoi( n - 1, c, b, a );
+        }
+
+Longest Valle
+
+return new int[] { FindLongestStreak( array, -1 ), FindLongestStreak( array, 1 ) };
+public static int FindLongestStreak( int[] array, int number ) {
+    int currentMax    = 0;
+    int nbFound       = 0;
+    int counter       = 0;
+    boolean inStreak  = false;
+    
+    for( int i = 0; i < array.length; ++i ) {
+      if( array[ i ] == number ) {
+        if( inStreak ) {
+          currentMax = Math.max( currentMax, Math.min( nbFound, counter ) );
+          inStreak = false;
+          nbFound  = 0;
+          counter  = 0;
+        }
+        ++nbFound;
+      }
+      else if( array[ i ] == -number && nbFound > 0 ) {
+        inStreak = true;
+        ++counter;
+      }
+    }
+    
+    return Math.max( currentMax, counter);
+  }
+
+Stack with a Queue
+
+queue.add( 0, elem );
+
+E elem = queue.peek();
+queue.remove((queue.peek()));
+return elem;
+
+return queue.peek();
+
+return queue.isEmpty();
+
+Circular Linked list
+
+Node oldlast = last;
+    last         = new Node( item );
+  
+    if ( oldlast != null ) {
+      last.next    = oldlast.next;
+      oldlast.next = last;
+    } else {
+      last.next = last;
+    }
+    
+    ++n;
+
+ if ( index > size() - 1 || index < 0 ) {
+      throw new IndexOutOfBoundsException();
+    }
+    
+    int  count   = 0;
+    Node current = last;
+    
+    while ( count != index ) {
+      current = current.next;
+      count++;
+    }
+    
+    Item toreturn = current.next.item;
+    current.next  = current.next.next;
+    if ( index == size() - 1 ) {
+      last = current;
+    }
+  
+    --n;
+    return toreturn;
+
+ private Node current      = last;
+    private final int start_n = n;
+    private int index         = 0;
+  
+    private boolean FailFastCheck() {
+      if ( n != start_n ) {
+        throw new ConcurrentModificationException();
+      }
+    
+      return true;
+    }
+  
+    public boolean hasNext() {
+      return index < size() && FailFastCheck();
+    }
+  
+    public Item next() {
+      FailFastCheck();
+    
+      current   = current.next;
+      Item item = current.item;
+    
+      ++index;
+      return item;
+    }
+
+MyArrayList
+
+if ( initSize < 0 ) {
+      throw new IndexOutOfBoundsException();
+    }
+    
+    list = new Object[ initSize ];
+    size = 0;
+
+    if ( list.length == size ) {
+
+      Object[] buffer = new Object[ size ];
+  
+      for ( int i = 0; i < size; i++ ) {
+        buffer[ i ] = list[ i ];
+      }
+      
+      list = new Object[ 2 * list.length ];
+      for ( int i = 0; i < size; i++ ) {
+        list[ i ] = buffer[ i ];
+      }
+    }
+    
+    list[ size ] = item;
+    ++size;
+
+ if ( index < 0 || index > size - 1 ) {
+      throw new IndexOutOfBoundsException();
+    }
+    
+    Item item = ( ( Item ) list[ index ] );
+    
+    int offset = 0;
+    for ( int i = 0; i < size; i++ ) {
+      if( i == index ) { offset = 1; }
+      if( i + offset >= size ) { break; }
+      list[ i ] = list[ i + offset ];
+    }
+    
+    --size;
+  
+    for ( int i = size; i < list.length; i++ ) {
+      list[ i ] = null;
+    }
+    
+    return item;
+
+int length    = size;
+    int currIndex = 0;
+    
+    private boolean isModified() {
+      if( length != size ) {
+        throw new ConcurrentModificationException();
+      }
+      
+      return false;
+    }
+    
+    @Override
+    public boolean hasNext() {
+      return !isModified() && currIndex < length;
+    }
+    
+    @Override
+    public Item next() {
+      isModified();
+      
+      if( hasNext() ) {
+        return ( Item )list[ currIndex++ ];
+      }
+      
+      // Should throw NoSuchElementException();
+      return null;
+    }
+
+
+
+ Binary trees - equals
+
+if (this == o){return true;}
+if(!(o instanceof Tree)) {return false;}
+
+Tree other = (Tree) o;
+Node thisStart = this.root;
+Node otherStart = other.root;
+
+if(thisStart == null && otherStart == null) {return true;}
+if ((thisStart == null && otherStart != null)|| (thisStart != null && otherStart==null)) {return false;}
+if (thisStart.equals(otherStart)){
+    Tree thisTreeLeft = new Tree(thisStart.left);
+    Tree thisTreeRight = new Tree(thisStart.right);
+    return (thisTreeLeft.equals(new Tree(otherStart.left)) && thisTreeRight.equals(new Tree(otherStart.right)));
+   
+}
+return false;
+
+
+return o.equals(this.val);
+
+
+Binary trees - Inorder traversal
+
+
+recursiveInorder(Node root, List<Integer> res)
+
+ if ( root == null ) {
+      return;
+    }
+    
+    if ( root.left != null ) {
+      recursiveInorder( root.left, res );
+    }
+    
+    res.add( root.val );
+    
+    if ( root.right != null ) {
+      recursiveInorder( root.right, res );
+    }
+iterativeInorder(Node root, List<Integer> res)
+
+if ( root == null ) {
+      return;
+    }
+    
+    Node        current = root;
+    Stack<Node> buffer  = new Stack<Node>();
+    
+    while ( current != null || !buffer.empty() ) {
+      if ( current != null ) {
+        buffer.push( current );
+        current = current.left;
+      } else {
+        current = buffer.pop();
+        res.add( current.val );
+        current = current.right;
+      }
+    }
+
+ Binary trees - combineWith
+
+combineWith method from class Tree
+
+if( root == null ) {
+      return o;
+    }
+    
+    if( o == null || o.root == null ) {
+      return this;
+    }
+    
+    return new Tree( combine( root, o.root ) );
+  }
+  
+  private static Node combine( Node a, Node b ) {
+    if ( a == null ) {
+      return null;
+    }
+  
+    if ( a.left != null && b.left != null ) {
+      combine( a.left, b.left );
+    }
+    
+    if( a.left == null && b.left != null ) {
+      a.left = b.left;
+    }
+  
+    a.val += b.val;
+  
+    if ( a.right != null && b.right != null ) {
+      combine( a.right, b.right );
+    }
+  
+    if( a.right == null && b.right != null ) {
+      a.right = b.right;
+    }
+    
+    return a;
+
+
